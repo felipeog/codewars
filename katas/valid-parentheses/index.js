@@ -1,15 +1,15 @@
 const validParentheses = (parens) => {
-  let i = 0;
+  let index = 0;
   let depth = 0;
 
-  while (i < parens.length) {
-    const currentParen = parens[i++];
+  while (index < parens.length) {
+    const currentParentheses = parens[index++];
 
-    if (currentParen === "(") {
+    if (currentParentheses === "(") {
       depth++;
     }
 
-    if (currentParen === ")") {
+    if (currentParentheses === ")") {
       depth--;
     }
 
@@ -18,7 +18,9 @@ const validParentheses = (parens) => {
     }
   }
 
-  return depth === 0;
+  const isValid = depth === 0;
+
+  return isValid;
 };
 
 module.exports = validParentheses;
