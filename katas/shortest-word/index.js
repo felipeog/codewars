@@ -1,5 +1,6 @@
 const findShort = (s) => {
-  const shortest = s.split(" ").reduce((acc, { length }) => {
+  const words = s.split(" ");
+  const shortestLength = words.reduce((acc, { length }) => {
     if (length < acc) {
       return length;
     }
@@ -7,7 +8,7 @@ const findShort = (s) => {
     return acc;
   }, Number.POSITIVE_INFINITY);
 
-  return shortest;
+  return shortestLength;
 };
 
 module.exports = findShort;
