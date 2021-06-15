@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^27.0.4"
+    "jest": "^27.0.4",
+    "unique-names-generator": "^4.5.0"
   }
 }
