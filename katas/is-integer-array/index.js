@@ -7,7 +7,9 @@ const isIntArray = (arr) => {
     return true;
   }
 
-  return arr.every((item) => Number.isInteger(item));
+  return arr.every((item) => {
+    return Number.isInteger(item);
+  });
 };
 
 module.exports = isIntArray;
