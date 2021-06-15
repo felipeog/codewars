@@ -1,4 +1,4 @@
-# [Weird prime generator](https://www.codewars.com/kata/562b384167350ac93b00010c/solutions/javascript)
+# [Weird prime generator](https://www.codewars.com/kata/562b384167350ac93b00010c)
 
 Consider the sequence `a(1) = 7, a(n) = a(n-1) + gcd(n, a(n-1)) for n >= 2`:
 
