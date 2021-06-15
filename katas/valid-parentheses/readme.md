@@ -5,10 +5,10 @@ Write a function that takes a string of parentheses, and determines if the order
 ## Examples
 
 ```javascript
-"()"              =>  true
-")(()))"          =>  false
-"("               =>  false
-"(())((()())())"  =>  true
+validParentheses("()"); // true
+validParentheses(")(()))"); // false
+validParentheses("("); // false
+validParentheses("(())((()())())"); // true
 ```
 
 ## Constraints

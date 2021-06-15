@@ -16,19 +16,16 @@ Removing the 1s gives a third sequence: `p: 5, 3, 11, 3, 23, 3...` where you can
 
 Write functions:
 
-```
-1: an(n) with parameter n: returns the first n terms of the series of a(n) (not tested)
+1. an(n) with parameter n: returns the first n terms of the series of a(n) (not tested)
 
-2: gn(n) with parameter n: returns the first n terms of the series of g(n) (not tested)
+1. gn(n) with parameter n: returns the first n terms of the series of g(n) (not tested)
 
-3: countOnes(n) with parameter n: returns the number of 1 in the series gn(n)
-    (don't forget to add a `1` at the head) # (tested)
+1. countOnes(n) with parameter n: returns the number of 1 in the series gn(n) (don't forget to add a `1` at the head) # (tested)
 
-4:  p(n) with parameter n: returns an array filled with the n first distinct primes in the same order they are found in the sequence gn (not tested)
+1. p(n) with parameter n: returns an array filled with the n first distinct primes in the same order they are found in the sequence gn (not tested)
 
-5: maxPn(n) with parameter n: returns the biggest prime number of the above p(n) # (tested)
+1. maxPn(n) with parameter n: returns the biggest prime number of the above p(n) # (tested)
 
-6: anOver(n) with parameter n: returns an array (n terms) of the a(i)/i for every i such g(i) != 1 (not tested but interesting result)
+1. anOver(n) with parameter n: returns an array (n terms) of the a(i)/i for every i such g(i) != 1 (not tested but interesting result)
 
-7: anOverAverage(n) with parameter n: returns as an *integer* the average of anOver(n) # (tested)
-```
+1. anOverAverage(n) with parameter n: returns as an _integer_ the average of anOver(n) # (tested)
