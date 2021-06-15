@@ -1,12 +1,13 @@
 const digital_root = (n) => {
-  const numberString = n.toString();
+  const numberAsString = n.toString();
 
-  if (numberString.length < 2) {
+  if (numberAsString.length < 2) {
     return n;
   }
 
-  const sum = numberString.split("").reduce((acc, digitString) => {
-    return acc + Number(digitString);
+  const numberDigits = numberAsString.split("");
+  const sum = numberDigits.reduce((acc, digit) => {
+    return acc + Number(digit);
   }, 0);
 
   return digital_root(sum);
