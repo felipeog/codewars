@@ -13,15 +13,18 @@ describe("Basic tests", () => {
     expect(even_or_odd(17)).toEqual("Odd");
     expect(even_or_odd(74156741)).toEqual("Odd");
     expect(even_or_odd(100000)).toEqual("Even");
+  });
+});
 
-    let ernd = function () {
-      return (25 + ~~(Math.random() * 25)) * 2;
-    };
-    let ornd = function () {
-      return ernd() + 1;
-    };
+describe("Random tests", () => {
+  let ernd = function () {
+    return (25 + ~~(Math.random() * 25)) * 2;
+  };
+  let ornd = function () {
+    return ernd() + 1;
+  };
 
-    console.log("Test some random values");
+  test("Test some random values", () => {
     for (let r = 0, x; r < 6; r++) {
       if (Math.random() > 0.5) {
         x = ernd();
