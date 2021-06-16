@@ -1,38 +1,55 @@
+const { getLoopTestTitle } = require("../../utils/test");
 const even_or_odd = require("./index");
 
-describe("Basic tests", () => {
-  test("Tests", () => {
-    expect(even_or_odd(2)).toEqual("Even");
-    expect(even_or_odd(1)).toEqual("Odd");
-    expect(even_or_odd(-4)).toEqual("Even");
-    expect(even_or_odd(-3)).toEqual("Odd");
-    expect(even_or_odd(0)).toEqual("Even");
-    expect(even_or_odd(1545452)).toEqual("Even");
-    expect(even_or_odd(7)).toEqual("Odd");
-    expect(even_or_odd(78)).toEqual("Even");
-    expect(even_or_odd(17)).toEqual("Odd");
-    expect(even_or_odd(74156741)).toEqual("Odd");
-    expect(even_or_odd(100000)).toEqual("Even");
+describe("Static tests", () => {
+  const tests = [
+    { input: -4, output: "Even" },
+    { input: -3, output: "Odd" },
+    { input: 0, output: "Even" },
+    { input: 1, output: "Odd" },
+    { input: 2, output: "Even" },
+    { input: 7, output: "Odd" },
+    { input: 17, output: "Odd" },
+    { input: 78, output: "Even" },
+    { input: 100_000, output: "Even" },
+    { input: 1_545_452, output: "Even" },
+    { input: 74_156_741, output: "Odd" },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(even_or_odd(input)).toEqual(output);
+    });
   });
 });
 
 describe("Random tests", () => {
-  let ernd = function () {
+  const randomEvenNumber = () => {
     return (25 + ~~(Math.random() * 25)) * 2;
   };
-  let ornd = function () {
-    return ernd() + 1;
+
+  const randomOddNumber = () => {
+    return randomEvenNumber() + 1;
   };
 
-  test("Test some random values", () => {
-    for (let r = 0, x; r < 6; r++) {
-      if (Math.random() > 0.5) {
-        x = ernd();
-        expect(even_or_odd(x)).toEqual("Even");
-      } else {
-        x = ornd();
-        expect(even_or_odd(x)).toEqual("Odd");
-      }
+  for (let i = 0; i < 6; i++) {
+    let input;
+    let output;
+
+    if (Math.random() > 0.5) {
+      input = randomEvenNumber();
+      output = "Even";
+    } else {
+      input = randomOddNumber();
+      output = "Odd";
     }
-  });
+
+    const testTitle = getLoopTestTitle(i + 1, input, output);
+
+    it(testTitle, () => {
+      expect(even_or_odd(input)).toEqual(output);
+    });
+  }
 });
