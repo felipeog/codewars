@@ -1,5 +1,5 @@
 const { getLoopTestTitle } = require("../../utils/test");
-const { shuffleArray } = require("../../utils/random");
+const { shuffleArray, generateRandomNumber } = require("../../utils/random");
 const dirReduc = require("./index");
 
 describe("Static tests", () => {
@@ -50,9 +50,9 @@ describe("Static tests", () => {
   ];
 
   tests.forEach(({ input, output }, index) => {
-    const testTile = getLoopTestTitle(index + 1, input, output);
+    const testTitle = getLoopTestTitle(index + 1, input, output);
 
-    it(testTile, () => {
+    it(testTitle, () => {
       expect(dirReduc(input)).toEqual(output);
     });
   });
@@ -67,19 +67,15 @@ describe("Random tests", () => {
     ["NORTH", "NORTH", "NORTH"],
   ];
 
-  const randomNumber = () => {
-    return ~~(Math.random() * 2);
-  };
-
   shuffleArray(directions).forEach((direction, index) => {
     const aa = ["NORTH", "SOUTH"];
     const bb = ["EAST", "WEST"];
     const input = [...direction];
     const output = [...direction];
 
-    for (let x = 0, z = 2 + randomNumber(); x < z; x++) {
-      const a = randomNumber();
-      const b = randomNumber();
+    for (let x = 0, z = 2 + generateRandomNumber(0, 1); x < z; x++) {
+      const a = generateRandomNumber(0, 1);
+      const b = generateRandomNumber(0, 1);
 
       if (x % 2) {
         input.push(aa[a]);
