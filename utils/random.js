@@ -37,9 +37,27 @@ const shuffleArray = (inputArray) => {
   return array;
 };
 
+// https://www.w3schools.com/js/js_random.asp
+const generateRandomNumber = (min, max) => {
+  // both included
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const generateRandomNumbers = (length, min, max) => {
+  const result = [];
+
+  for (let i = 0; i < length; i++) {
+    result.push(generateRandomNumber(min, max));
+  }
+
+  return result;
+};
+
 module.exports = {
   generateRandomArrayIndex,
   generateRandomName,
   generateRandomNames,
+  generateRandomNumber,
+  generateRandomNumbers,
   shuffleArray,
 };
