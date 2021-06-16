@@ -1,7 +1,5 @@
 {
   "name": "codewars",
-  "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "jest --watch",
@@ -9,8 +7,7 @@
     "test:uncommitted": "jest -o",
     "create-kata-folder": "node ./scripts/createKataFolder.js"
   },
-  "keywords": [],
-  "author": "",
+  "author": "https://github.com/felipeog",
   "license": "ISC",
   "devDependencies": {
     "jest": "^27.0.4",
