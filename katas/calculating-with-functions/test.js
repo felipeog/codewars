@@ -16,18 +16,24 @@ const {
   dividedBy,
 } = require("./index");
 
-describe("Static example calculations", () => {
-  test("Test", () => {
-    expect(seven(times(five()))).toEqual(35);
-    expect(four(plus(nine()))).toEqual(13);
-    expect(eight(minus(three()))).toEqual(5);
-    expect(six(dividedBy(two()))).toEqual(3);
-    expect(zero(plus(one()))).toEqual(1);
+describe("Static tests", () => {
+  const tests = [
+    { input: "seven(times(five()))", output: 35 },
+    { input: "four(plus(nine()))", output: 13 },
+    { input: "eight(minus(three()))", output: 5 },
+    { input: "six(dividedBy(two()))", output: 3 },
+    { input: "zero(plus(one()))", output: 1 },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    test(`Test ${index + 1}: expect "${input}" to equal "${output}"`, () => {
+      expect(eval(input)).toEqual(output);
+    });
   });
 });
 
-describe("Random calculations", () => {
-  let numbers = [
+describe("Random tests", () => {
+  const numbers = [
     "zero",
     "one",
     "two",
@@ -40,43 +46,56 @@ describe("Random calculations", () => {
     "nine",
   ];
 
-  test("Add", () => {
+  describe("Add tests", () => {
     for (let i = 0; i < 50; i++) {
-      let num1 = numbers[generateRandomArrayIndex(numbers.length)];
-      let num2 = numbers[generateRandomArrayIndex(numbers.length)];
-      expect(eval(num1 + "(plus(" + num2 + "()))")).toEqual(
-        numbers.indexOf(num1) + numbers.indexOf(num2)
-      );
+      const num1 = numbers[generateRandomArrayIndex(numbers.length)];
+      const num2 = numbers[generateRandomArrayIndex(numbers.length)];
+      const input = `${num1}(plus(${num2}()))`;
+      const output = numbers.indexOf(num1) + numbers.indexOf(num2);
+
+      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+        expect(eval(input)).toEqual(output);
+      });
     }
   });
 
-  test("Subtract", () => {
+  describe("Subtract tests", () => {
     for (let i = 0; i < 50; i++) {
-      let num1 = numbers[generateRandomArrayIndex(numbers.length)];
-      let num2 = numbers[generateRandomArrayIndex(numbers.length)];
-      expect(eval(num1 + "(minus(" + num2 + "()))")).toEqual(
-        numbers.indexOf(num1) - numbers.indexOf(num2)
-      );
+      const num1 = numbers[generateRandomArrayIndex(numbers.length)];
+      const num2 = numbers[generateRandomArrayIndex(numbers.length)];
+      const input = `${num1}(minus(${num2}()))`;
+      const output = numbers.indexOf(num1) - numbers.indexOf(num2);
+
+      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+        expect(eval(input)).toEqual(output);
+      });
     }
   });
 
-  test("Multiply", () => {
+  describe("Multiply tests", () => {
     for (let i = 0; i < 50; i++) {
-      let num1 = numbers[generateRandomArrayIndex(numbers.length)];
-      let num2 = numbers[generateRandomArrayIndex(numbers.length)];
-      expect(eval(num1 + "(times(" + num2 + "()))")).toEqual(
-        numbers.indexOf(num1) * numbers.indexOf(num2)
-      );
+      const num1 = numbers[generateRandomArrayIndex(numbers.length)];
+      const num2 = numbers[generateRandomArrayIndex(numbers.length)];
+      const input = `${num1}(times(${num2}()))`;
+      const output = numbers.indexOf(num1) * numbers.indexOf(num2);
+
+      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+        expect(eval(input)).toEqual(output);
+      });
     }
   });
 
-  test("Divide", () => {
+  describe("Divide tests", () => {
     for (let i = 0; i < 50; i++) {
-      let num1 = numbers[generateRandomArrayIndex(numbers.length)];
-      let num2 = numbers.slice(1)[generateRandomArrayIndex(numbers.length - 1)];
-      expect(eval(num1 + "(dividedBy(" + num2 + "()))")).toEqual(
-        Math.floor(numbers.indexOf(num1) / numbers.indexOf(num2))
-      );
+      const num1 = numbers[generateRandomArrayIndex(numbers.length)];
+      const num2 =
+        numbers.slice(1)[generateRandomArrayIndex(numbers.length - 1)]; // remove "zero" to prevent division by zero
+      const input = `${num1}(dividedBy(${num2}()))`;
+      const output = Math.floor(numbers.indexOf(num1) / numbers.indexOf(num2));
+
+      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+        expect(eval(input)).toEqual(output);
+      });
     }
   });
 });
