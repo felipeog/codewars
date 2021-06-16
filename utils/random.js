@@ -12,6 +12,7 @@ const generateRandomName = () => {
 
 const generateRandomNames = (length) => {
   const result = [];
+
   for (let i = 0; i < length; i++) {
     result.push(generateRandomName());
   }
@@ -24,7 +25,7 @@ const shuffleArray = (inputArray) => {
   const array = [...inputArray];
   let currentIndex = array.length;
 
-  while (0 !== currentIndex) {
+  while (currentIndex !== 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex--);
 
     [array[currentIndex], array[randomIndex]] = [
