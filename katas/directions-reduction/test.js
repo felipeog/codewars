@@ -1,19 +1,20 @@
+const { getLoopTestTitle } = require("../../utils/test");
 const { shuffleArray } = require("../../utils/random");
 const dirReduc = require("./index");
 
-describe("Basic tests", () => {
-  test("Tests", () => {
-    expect(
-      dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"])
-    ).toEqual(["WEST"]);
-    expect(
-      dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"])
-    ).toEqual([]);
-    expect(
-      dirReduc(["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "NORTH"])
-    ).toEqual(["NORTH"]);
-    expect(
-      dirReduc([
+describe("Static tests", () => {
+  const tests = [
+    {
+      input: ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"],
+      output: ["WEST"],
+    },
+    { input: ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH"], output: [] },
+    {
+      input: ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "NORTH"],
+      output: ["NORTH"],
+    },
+    {
+      input: [
         "EAST",
         "EAST",
         "WEST",
@@ -24,10 +25,11 @@ describe("Basic tests", () => {
         "SOUTH",
         "NORTH",
         "WEST",
-      ])
-    ).toEqual(["EAST", "NORTH"]);
-    expect(
-      dirReduc([
+      ],
+      output: ["EAST", "NORTH"],
+    },
+    {
+      input: [
         "NORTH",
         "EAST",
         "NORTH",
@@ -38,19 +40,26 @@ describe("Basic tests", () => {
         "EAST",
         "WEST",
         "SOUTH",
-      ])
-    ).toEqual(["NORTH", "EAST"]);
-    expect(dirReduc(["NORTH", "WEST", "SOUTH", "EAST"])).toEqual([
-      "NORTH",
-      "WEST",
-      "SOUTH",
-      "EAST",
-    ]);
+      ],
+      output: ["NORTH", "EAST"],
+    },
+    {
+      input: ["NORTH", "WEST", "SOUTH", "EAST"],
+      output: ["NORTH", "WEST", "SOUTH", "EAST"],
+    },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    const testTile = getLoopTestTitle(index + 1, input, output);
+
+    it(testTile, () => {
+      expect(dirReduc(input)).toEqual(output);
+    });
   });
 });
 
 describe("Random tests", () => {
-  let rr = [
+  const directions = [
     ["NORTH", "EAST"],
     ["EAST", "SOUTH"],
     ["SOUTH", "WEST"],
@@ -58,32 +67,37 @@ describe("Random tests", () => {
     ["NORTH", "NORTH", "NORTH"],
   ];
 
-  shuffleArray(rr).forEach((res, index) => {
-    let aa = ["NORTH", "SOUTH"],
-      bb = ["EAST", "WEST"];
-    let rnd = function () {
-      return ~~(Math.random() * 2);
-    };
-    let u = res.slice(0);
+  const randomNumber = () => {
+    return ~~(Math.random() * 2);
+  };
 
-    for (let x = 0, z = 2 + rnd(); x < z; x++) {
-      let a = rnd(),
-        b = rnd();
+  shuffleArray(directions).forEach((direction, index) => {
+    const aa = ["NORTH", "SOUTH"];
+    const bb = ["EAST", "WEST"];
+    const input = [...direction];
+    const output = [...direction];
+
+    for (let x = 0, z = 2 + randomNumber(); x < z; x++) {
+      const a = randomNumber();
+      const b = randomNumber();
+
       if (x % 2) {
-        u.push(aa[a]);
-        u.push(aa[(a + 1) % 2]);
-        u.unshift(bb[b]);
-        u.unshift(bb[(b + 1) % 2]);
+        input.push(aa[a]);
+        input.push(aa[(a + 1) % 2]);
+        input.unshift(bb[b]);
+        input.unshift(bb[(b + 1) % 2]);
       } else {
-        u.push(bb[b]);
-        u.push(bb[(b + 1) % 2]);
-        u.unshift(aa[a]);
-        u.unshift(aa[(a + 1) % 2]);
+        input.push(bb[b]);
+        input.push(bb[(b + 1) % 2]);
+        input.unshift(aa[a]);
+        input.unshift(aa[(a + 1) % 2]);
       }
     }
 
-    test(`Test ${index + 1}`, () => {
-      expect(dirReduc(u)).toEqual(res);
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(dirReduc(input)).toEqual(output);
     });
   });
 });
