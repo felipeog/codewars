@@ -1,3 +1,4 @@
+const { getLoopTestTitle } = require("../../utils/test");
 const { generateRandomArrayIndex } = require("../../utils/random");
 const {
   zero,
@@ -26,7 +27,9 @@ describe("Static tests", () => {
   ];
 
   tests.forEach(({ input, output }, index) => {
-    test(`Test ${index + 1}: expect "${input}" to equal "${output}"`, () => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
       expect(eval(input)).toEqual(output);
     });
   });
@@ -52,8 +55,9 @@ describe("Random tests", () => {
       const num2 = numbers[generateRandomArrayIndex(numbers.length)];
       const input = `${num1}(plus(${num2}()))`;
       const output = numbers.indexOf(num1) + numbers.indexOf(num2);
+      const testTitle = getLoopTestTitle(i + 1, input, output);
 
-      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+      it(testTitle, () => {
         expect(eval(input)).toEqual(output);
       });
     }
@@ -65,8 +69,9 @@ describe("Random tests", () => {
       const num2 = numbers[generateRandomArrayIndex(numbers.length)];
       const input = `${num1}(minus(${num2}()))`;
       const output = numbers.indexOf(num1) - numbers.indexOf(num2);
+      const testTitle = getLoopTestTitle(i + 1, input, output);
 
-      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+      it(testTitle, () => {
         expect(eval(input)).toEqual(output);
       });
     }
@@ -78,8 +83,9 @@ describe("Random tests", () => {
       const num2 = numbers[generateRandomArrayIndex(numbers.length)];
       const input = `${num1}(times(${num2}()))`;
       const output = numbers.indexOf(num1) * numbers.indexOf(num2);
+      const testTitle = getLoopTestTitle(i + 1, input, output);
 
-      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+      it(testTitle, () => {
         expect(eval(input)).toEqual(output);
       });
     }
@@ -92,8 +98,9 @@ describe("Random tests", () => {
         numbers.slice(1)[generateRandomArrayIndex(numbers.length - 1)]; // remove "zero" to prevent division by zero
       const input = `${num1}(dividedBy(${num2}()))`;
       const output = Math.floor(numbers.indexOf(num1) / numbers.indexOf(num2));
+      const testTitle = getLoopTestTitle(i + 1, input, output);
 
-      test(`Test ${i + 1}: expect "${input}" to equal "${output}"`, () => {
+      it(testTitle, () => {
         expect(eval(input)).toEqual(output);
       });
     }
