@@ -20,27 +20,20 @@ const generateRandomNames = (length) => {
   return result;
 };
 
-// https://stackoverflow.com/a/2450976/10942224
-const shuffleArray = (inputArray) => {
-  const array = [...inputArray];
-  let currentIndex = array.length;
-
-  while (currentIndex !== 0) {
-    const randomIndex = Math.floor(Math.random() * currentIndex--);
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-};
-
 // https://www.w3schools.com/js/js_random.asp
 const generateRandomNumber = (min, max) => {
   // both included
   return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const generateRandomNumbers = (length, min, max) => {
+  const result = [];
+
+  for (let i = 0; i < length; i++) {
+    result.push(generateRandomNumber(min, max));
+  }
+
+  return result;
 };
 
 const generateRandomEvenNumber = (min, max) => {
@@ -71,14 +64,36 @@ const generateRandomOddNumber = (min, max) => {
   return randomNumber + 1;
 };
 
-const generateRandomNumbers = (length, min, max) => {
-  const result = [];
+const generateRandomString = (length) => {
+  let result = "";
 
   for (let i = 0; i < length; i++) {
-    result.push(generateRandomNumber(min, max));
+    const isLowerCase = Math.random() > 0.5;
+    const randomNumber = isLowerCase
+      ? generateRandomNumber(65, 90)
+      : generateRandomNumber(97, 122);
+
+    result += String.fromCharCode(randomNumber);
   }
 
   return result;
+};
+
+// https://stackoverflow.com/a/2450976/10942224
+const shuffleArray = (inputArray) => {
+  const array = [...inputArray];
+  let currentIndex = array.length;
+
+  while (currentIndex !== 0) {
+    const randomIndex = Math.floor(Math.random() * currentIndex--);
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
 };
 
 module.exports = {
@@ -89,5 +104,6 @@ module.exports = {
   generateRandomNumbers,
   generateRandomEvenNumber,
   generateRandomOddNumber,
+  generateRandomString,
   shuffleArray,
 };
