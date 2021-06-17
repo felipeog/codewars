@@ -1,72 +1,61 @@
-const {
-  generateRandomArrayIndex,
-  generateRandomNames,
-  shuffleArray,
-} = require("../../utils/random");
+const { getLoopTestTitle } = require("../../utils/test");
+const { generateRandomNames } = require("../../utils/random");
 const likes = require("./index");
 
 describe("Static tests", () => {
-  test("Should return correct text", () => {
-    expect(likes([])).toEqual("no one likes this");
-    expect(likes(["Peter"])).toEqual("Peter likes this");
-    expect(likes(["Jacob", "Alex"])).toEqual("Jacob and Alex like this");
-    expect(likes(["Max", "John", "Mark"])).toEqual(
-      "Max, John and Mark like this"
-    );
-    expect(likes(["Alex", "Jacob", "Mark", "Max"])).toEqual(
-      "Alex, Jacob and 2 others like this"
-    );
+  const tests = [
+    { input: [], output: "no one likes this" },
+    { input: ["Peter"], output: "Peter likes this" },
+    { input: ["Jacob", "Alex"], output: "Jacob and Alex like this" },
+    { input: ["Max", "John", "Mark"], output: "Max, John and Mark like this" },
+    {
+      input: ["Alex", "Jacob", "Mark", "Max"],
+      output: "Alex, Jacob and 2 others like this",
+    },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(likes(input)).toEqual(output);
+    });
   });
 });
 
 describe("Random tests", () => {
-  const names = generateRandomNames(100);
-  let sample;
+  for (let i = 0; i < 100; i++) {
+    const names = generateRandomNames(i);
+    const input = names;
+    let output = "";
 
-  test("Should return correct text for 1 name", () => {
-    sample = shuffleArray(names).slice(0, 1);
-    expect(likes(sample.slice())).toEqual(sample[0] + " likes this");
-  });
+    if (i === 0) {
+      output = "no one likes this";
+    }
 
-  test("Should return correct text for 2 names", () => {
-    sample = shuffleArray(names).slice(0, 2);
-    expect(likes(sample.slice())).toEqual(
-      sample[0] + " and " + sample[1] + " like this"
-    );
-  });
+    if (i === 1) {
+      output = `${names[0]} likes this`;
+    }
 
-  test("Should return correct text for 3 names", () => {
-    sample = shuffleArray(names).slice(0, 3);
-    expect(likes(sample.slice())).toEqual(
-      sample[0] + ", " + sample[1] + " and " + sample[2] + " like this"
-    );
-  });
+    if (i === 2) {
+      output = `${names[0]} and ${names[1]} like this`;
+    }
 
-  test("Should return correct text for 4 or more names", () => {
-    // 4 names
-    sample = shuffleArray(names).slice(0, 4);
-    expect(likes(sample.slice())).toEqual(
-      sample[0] + ", " + sample[1] + " and 2 others like this"
-    );
+    if (i === 3) {
+      output = `${names[0]}, ${names[1]} and ${names[2]} like this`;
+    }
 
-    // random number of names
-    sample = shuffleArray(names).slice(
-      0,
-      Math.max(5, generateRandomArrayIndex(names.length))
-    );
-    expect(likes(sample.slice())).toEqual(
-      sample[0] +
-        ", " +
-        sample[1] +
-        " and " +
-        (sample.length - 2) +
-        " others like this"
-    );
+    if (i >= 4) {
+      const [firstName, secondName, ...restOfNames] = names;
+      const restCount = restOfNames.length;
 
-    // 100 names
-    sample = shuffleArray(names);
-    expect(likes(sample.slice())).toEqual(
-      sample[0] + ", " + sample[1] + " and 98 others like this"
-    );
-  });
+      output = `${firstName}, ${secondName} and ${restCount} others like this`;
+    }
+
+    const testTitle = getLoopTestTitle(i + 1, input, output);
+
+    it(testTitle, () => {
+      expect(likes(input)).toEqual(output);
+    });
+  }
 });
