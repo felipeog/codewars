@@ -1,4 +1,8 @@
 const { getLoopTestTitle } = require("../../utils/test");
+const {
+  generateRandomEvenNumber,
+  generateRandomOddNumber,
+} = require("../../utils/random");
 const even_or_odd = require("./index");
 
 describe("Static tests", () => {
@@ -26,25 +30,11 @@ describe("Static tests", () => {
 });
 
 describe("Random tests", () => {
-  const randomEvenNumber = () => {
-    return (25 + ~~(Math.random() * 25)) * 2;
-  };
-
-  const randomOddNumber = () => {
-    return randomEvenNumber() + 1;
-  };
-
   for (let i = 0; i < 6; i++) {
-    let input;
-    let output;
-
-    if (Math.random() > 0.5) {
-      input = randomEvenNumber();
-      output = "Even";
-    } else {
-      input = randomOddNumber();
-      output = "Odd";
-    }
+    const { input, output } =
+      Math.random() > 0.5
+        ? { input: generateRandomEvenNumber(50, 100), output: "Even" }
+        : { input: generateRandomOddNumber(50, 100), output: "Odd" };
 
     const testTitle = getLoopTestTitle(i + 1, input, output);
 
