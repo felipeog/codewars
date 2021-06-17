@@ -1,85 +1,83 @@
-const { test } = require("@jest/globals");
+const { getLoopTestTitle } = require("../../utils/test");
+const { generateRandomNumber } = require("../../utils/random");
 const validParentheses = require("./index");
 
-describe("Basic tests", () => {
-  test("Test", () => {
-    expect(validParentheses("()()((()")).toEqual(false);
-    expect(validParentheses("()")).toEqual(true);
-    expect(validParentheses("()()")).toEqual(true);
-    expect(validParentheses("(())")).toEqual(true);
-    expect(validParentheses(")")).toEqual(false);
-    expect(validParentheses("")).toEqual(true);
-    expect(validParentheses("())")).toEqual(false);
-    expect(validParentheses("((((()))))")).toEqual(true);
-    expect(validParentheses("()))")).toEqual(false);
-    expect(validParentheses("()()()())")).toEqual(false);
-    expect(validParentheses("(()()()())(())")).toEqual(true);
-    expect(validParentheses("((((((((")).toEqual(false);
-    expect(validParentheses("(())((()((()))))")).toEqual(true);
-    expect(validParentheses("())(")).toEqual(false);
-    expect(validParentheses(")()()()(")).toEqual(false);
-    expect(validParentheses("(()()))(")).toEqual(false);
-    expect(validParentheses(")()(")).toEqual(false);
-    expect(validParentheses("())(()")).toEqual(false);
-    expect(validParentheses("())(()")).toEqual(false);
+describe("Static tests", () => {
+  const tests = [
+    { input: "()()((()", output: false },
+    { input: "()", output: true },
+    { input: "()()", output: true },
+    { input: "(())", output: true },
+    { input: ")", output: false },
+    { input: "", output: true },
+    { input: "())", output: false },
+    { input: "((((()))))", output: true },
+    { input: "()))", output: false },
+    { input: "()()()())", output: false },
+    { input: "(()()()())(())", output: true },
+    { input: "((((((((", output: false },
+    { input: "(())((()((()))))", output: true },
+    { input: "())(", output: false },
+    { input: ")()()()(", output: false },
+    { input: "(()()))(", output: false },
+    { input: ")()(", output: false },
+    { input: "())(()", output: false },
+    { input: "())(()", output: false },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(validParentheses(input)).toEqual(output);
+    });
   });
 });
 
-function validParenthesesReference(string) {
-  var tokenizer = /[()]/g, // ignores characters in between; parentheses are
-    count = 0, // pretty useless if they're not grouping *something*
-    token;
-  while (((token = tokenizer.exec(string)), token !== null)) {
-    if (token == "(") {
-      count++;
-    } else if (token == ")") {
-      count--;
-      if (count < 0) {
-        return false;
+describe("Random tests", () => {
+  const validParenthesesCheck = (string) => {
+    const tokenizer = /[()]/g;
+    let depth = 0;
+    let token;
+
+    while (token !== null) {
+      token = tokenizer.exec(string);
+
+      if (token == "(") {
+        depth++;
+      }
+
+      if (token == ")") {
+        depth--;
+
+        if (depth < 0) {
+          return false;
+        }
       }
     }
-  }
-  return count == 0;
-}
 
-function generator() {
-  const len = randInt(1, 20) * 2;
-  let brackets = "";
-  let rb = 0;
-  for (let i = 0; i < len; i++)
-    if (randInt(0, rb) == 0) {
-      brackets += "(";
-      rb += 5;
-    } else {
-      brackets += ")";
-      rb -= 5;
+    return depth === 0;
+  };
+
+  const generateParentheses = () => {
+    const randomLength = generateRandomNumber(1, 20) * 2;
+    let brackets = "";
+
+    for (let i = 0; i < randomLength; i++) {
+      brackets += Math.random() > 0.5 ? "(" : ")";
     }
-  return [brackets];
-}
 
-function randInt(a, b) {
-  return (Math.random() * (b - a + 1) + a) | 0;
-}
+    return brackets;
+  };
 
-function randomAssertSimilar(
-  generator,
-  userSolution,
-  referenceSolution,
-  tests
-) {
-  tests = tests || 100;
-  var user, reference, values;
-  while (tests-- > 0) {
-    values = generator();
-    reference = referenceSolution.apply(this, values);
-    user = userSolution.apply(this, values);
+  for (let i = 0; i < 100; i++) {
+    const randomParentheses = generateParentheses();
+    const input = randomParentheses;
+    const output = validParenthesesCheck(randomParentheses);
+    const testTitle = getLoopTestTitle(i + 1, input, output);
 
-    test("Test", () => {
-      expect(user).toEqual(reference);
+    test(testTitle, () => {
+      expect(validParentheses(input)).toEqual(output);
     });
   }
-}
-
-describe("Random tests", () => {
-  randomAssertSimilar(generator, validParentheses, validParenthesesReference);
 });
