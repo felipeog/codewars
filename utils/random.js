@@ -43,6 +43,34 @@ const generateRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const generateRandomEvenNumber = (min, max) => {
+  const randomNumber = generateRandomNumber(min, max);
+
+  if (randomNumber % 2 === 0) {
+    return randomNumber;
+  }
+
+  if (randomNumber + 1 > max) {
+    return randomNumber - 1;
+  }
+
+  return randomNumber + 1;
+};
+
+const generateRandomOddNumber = (min, max) => {
+  const randomNumber = generateRandomNumber(min, max);
+
+  if (randomNumber % 2 !== 0) {
+    return randomNumber;
+  }
+
+  if (randomNumber + 1 > max) {
+    return randomNumber - 1;
+  }
+
+  return randomNumber + 1;
+};
+
 const generateRandomNumbers = (length, min, max) => {
   const result = [];
 
@@ -59,5 +87,7 @@ module.exports = {
   generateRandomNames,
   generateRandomNumber,
   generateRandomNumbers,
+  generateRandomEvenNumber,
+  generateRandomOddNumber,
   shuffleArray,
 };
