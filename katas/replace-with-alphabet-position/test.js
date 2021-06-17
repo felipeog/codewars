@@ -1,46 +1,56 @@
+const { getLoopTestTitle } = require("../../utils/test");
+const {
+  generateRandomChars,
+  generateRandomNumber,
+} = require("../../utils/random");
 const alphabetPosition = require("./index");
 
-function ap(text) {
+function alphabetPositionCheck(text) {
   return text
     .toLowerCase()
     .split("")
-    .filter(function (l) {
-      return /[a-z]/.test(l);
+    .filter((letter) => {
+      return /[a-z]/.test(letter);
     })
-    .map(function (l) {
-      return l.charCodeAt() - 96;
+    .map((letter) => {
+      return letter.charCodeAt() - 96;
     })
     .join(" ");
 }
 
-function randomChar() {
-  let chars =
-      "abcdefghijklmnopqrstuvwxyz1234567890-=!@#$%^&*()_+[];,./{}:|<>? ",
-    rand = Math.floor(Math.random() * chars.length);
-  return chars[rand];
-}
+describe("Static tests", () => {
+  const tests = [{ input: "-.-'", output: "" }];
 
-describe("Replace with alphabet position", () => {
-  test("Fixed tests:", () => {
-    for (let i = 65; i <= 122; i++) {
-      let letter = String.fromCharCode(i);
+  for (let i = 65; i <= 122; i++) {
+    const letter = String.fromCharCode(i);
+    const input = letter;
+    const output = alphabetPositionCheck(letter);
 
-      expect(alphabetPosition(letter)).toEqual(ap(letter));
-    }
+    tests.push({
+      input,
+      output,
+    });
+  }
 
-    expect(alphabetPosition("-.-'")).toEqual("");
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(alphabetPosition(input)).toEqual(output);
+    });
   });
 });
 
-describe("Randomly generated tests:", () => {
+describe("Random tests", () => {
   for (let i = 0; i < 50; i++) {
-    let x = "";
-    for (let j = 0; j < 8; j++) {
-      x += randomChar();
-    }
+    const randomLength = generateRandomNumber(5, 15);
+    const randomChars = generateRandomChars(randomLength);
+    const input = randomChars;
+    const output = alphabetPositionCheck(randomChars);
+    const testTitle = getLoopTestTitle(i + 1, input, output);
 
-    test(`Testing "${x}"`, () => {
-      expect(alphabetPosition(x)).toEqual(ap(x));
+    it(testTitle, () => {
+      expect(alphabetPosition(input)).toEqual(output);
     });
   }
 });
