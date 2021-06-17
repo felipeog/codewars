@@ -1,64 +1,54 @@
+const { getLoopTestTitle } = require("../../utils/test");
+const {
+  generateRandomNumber,
+  generateRandomNames,
+} = require("../../utils/random");
 const findShort = require("./index");
 
-describe("Basic tests", () => {
-  test("Tests", () => {
-    expect(
-      findShort("bitcoin take over the world maybe who knows perhaps")
-    ).toEqual(3);
-    expect(
-      findShort(
-        "turns out random test cases are easier than writing out basic ones"
-      )
-    ).toEqual(3);
-    expect(findShort("lets talk about javascript the best language")).toEqual(
-      3
-    );
-    expect(
-      findShort("i want to travel the world writing code one day")
-    ).toEqual(1);
-    expect(findShort("Lets all go on holiday somewhere very cold")).toEqual(2);
-    expect(findShort("Test where final word shortest see")).toEqual(3);
-    expect(findShort("Let's travel abroad shall we")).toEqual(2);
+describe("Static tests", () => {
+  const tests = [
+    { input: "bitcoin take over the world maybe who knows perhaps", output: 3 },
+    {
+      input:
+        "turns out random test cases are easier than writing out basic ones",
+      output: 3,
+    },
+    { input: "lets talk about javascript the best language", output: 3 },
+    { input: "i want to travel the world writing code one day", output: 1 },
+    { input: "Lets all go on holiday somewhere very cold", output: 2 },
+    { input: "Test where final word shortest see", output: 3 },
+    { input: "Let's travel abroad shall we", output: 2 },
+  ];
+
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(findShort(input)).toEqual(output);
+    });
   });
 });
 
 describe("Random tests", () => {
-  const randint = (a, b) => ~~(Math.random() * (b - a + 1)) + a;
-  const sol = (s) =>
-    Math.min.apply(
-      this,
-      s.split(" ").map((a) => a.length)
-    );
-  let names = [
-    "Bitcoin",
-    "LiteCoin",
-    "Ripple",
-    "Dash",
-    "Lisk",
-    "DarkCoin",
-    "Monero",
-    "Ethereum",
-    "Classic",
-    "Mine",
-    "ProofOfWork",
-    "ProofOfStake",
-    "21inc",
-    "Steem",
-    "Dogecoin",
-    "Waves",
-    "Factom",
-    "MadeSafeCoin",
-    "BTC",
-  ];
+  const findShortCheck = (string) => {
+    const words = string.split(" ");
+    const wordsLength = words.map((char) => {
+      return char.length;
+    });
+
+    return Math.min(...wordsLength);
+  };
 
   for (let i = 0; i < 40; i++) {
-    let s = [],
-      len = randint(1, 20);
-    for (let k = 0; k < len; k++) s.push(names[randint(0, names.length - 1)]);
-    s = s.join(" ");
+    const randomLength = generateRandomNumber(5, 15);
+    const randomNames = generateRandomNames(randomLength);
+    const randomString = randomNames.join(" ");
+    const input = randomString;
+    const output = findShortCheck(randomString);
+    const testTitle = getLoopTestTitle(i + 1, input, output);
 
-    test(`Testing for ${s}`, () => {
-      expect(findShort(s)).toEqual(sol(s));
+    it(testTitle, () => {
+      expect(findShort(input)).toEqual(output);
     });
   }
 });
