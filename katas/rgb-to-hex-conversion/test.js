@@ -1,53 +1,58 @@
+const { getLoopTestTitle } = require("../../utils/test");
+const { generateRandomNumber } = require("../../utils/random");
 const rgb = require("./index");
 
-describe("Tests", () => {
-  test("Basic Tests", () => {
-    expect(rgb(0, 0, 0)).toEqual("000000");
-    expect(rgb(0, 0, -20)).toEqual("000000");
-    expect(rgb(300, 255, 255)).toEqual("FFFFFF");
-    expect(rgb(173, 255, 47)).toEqual("ADFF2F");
-  });
+describe("Static tests", () => {
+  const tests = [
+    { input: [0, 0, 0], output: "000000" },
+    { input: [0, 0, -20], output: "000000" },
+    { input: [173, 255, 47], output: "ADFF2F" },
+    { input: [300, 255, 255], output: "FFFFFF" },
+  ];
 
-  function rgbReference(r, g, b) {
-    function hex(n) {
-      n = parseInt(n, 10);
-      if (isNaN(n)) return "00";
-      n = Math.max(0, Math.min(n, 255));
-      var chars = "0123456789ABCDEF";
-      return chars.charAt((n - (n % 16)) / 16) + chars.charAt(n % 16);
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(rgb(...input)).toEqual(output);
+    });
+  });
+});
+
+describe("Random tests", () => {
+  const hex = (number) => {
+    if (isNaN(parseInt(number, 10))) {
+      return "00";
     }
 
+    const chars = "0123456789ABCDEF";
+    const clamped = Math.max(0, Math.min(number, 255));
+
+    return (
+      chars.charAt((clamped - (clamped % 16)) / 16) + chars.charAt(clamped % 16)
+    );
+  };
+
+  const rgbCheck = (r, g, b) => {
     return hex(r) + hex(g) + hex(b);
-  }
+  };
 
-  function generator() {
-    var a = randInt(-5, 300);
-    var b = randInt(-5, 300);
-    var c = randInt(-5, 300);
-    return [a, b, c];
-  }
+  const generateRgb = () => {
+    const r = generateRandomNumber(-5, 300);
+    const g = generateRandomNumber(-5, 300);
+    const b = generateRandomNumber(-5, 300);
 
-  function randInt(a, b) {
-    return (Math.random() * (b - a + 1) + a) | 0;
-  }
+    return [r, g, b];
+  };
 
-  function randomAssertSimilar(
-    generator,
-    userSolution,
-    referenceSolution,
-    tests
-  ) {
-    tests = tests || 100;
-    var user, reference, values;
-    while (tests-- > 0) {
-      values = generator();
-      reference = referenceSolution.apply(this, values);
-      user = userSolution.apply(this, values);
-      expect(user).toEqual(reference);
-    }
-  }
+  for (let i = 0; i < 100; i++) {
+    const randomRgb = generateRgb();
+    const input = randomRgb;
+    const output = rgbCheck(...randomRgb);
+    const testTitle = getLoopTestTitle(i + 1, input, output);
 
-  it("Random Tests", () => {
-    randomAssertSimilar(generator, rgb, rgbReference);
-  });
+    it(testTitle, () => {
+      expect(rgb(...input)).toEqual(output);
+    });
+  }
 });
