@@ -1,4 +1,7 @@
-const snail = (array) => {
+const snail = (inputArray) => {
+  const array = inputArray.map((item) => {
+    return [...item];
+  });
   const n = array[0].length;
 
   if (n <= 0) {
