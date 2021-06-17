@@ -1,36 +1,33 @@
+const { getLoopTestTitle } = require("../../utils/test");
+const { generateRandomNumber } = require("../../utils/random");
 const solution = require("./index");
 
-function doTest(n, expected) {
-  let actual = solution(n);
+describe("Static tests", () => {
+  const tests = [
+    { input: -1, output: 0 },
+    { input: 0, output: 0 },
+    { input: 1, output: 0 },
+    { input: 2, output: 0 },
+    { input: 3, output: 0 },
+    { input: 4, output: 3 },
+    { input: 5, output: 3 },
+    { input: 6, output: 8 },
+    { input: 10, output: 23 },
+    { input: 20, output: 78 },
+    { input: 200, output: 9168 },
+  ];
 
-  test(`Expected ${expected}, got ${actual}`, () => {
-    expect(actual).toEqual(expected);
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
+
+    it(testTitle, () => {
+      expect(solution(input)).toEqual(output);
+    });
   });
-}
-
-describe("Basic tests", () => {
-  doTest(10, 23);
-  doTest(20, 78);
-  doTest(200, 9168);
 });
 
-describe("Smallest cases", () => {
-  doTest(-1, 0);
-  doTest(0, 0);
-  doTest(1, 0);
-  doTest(2, 0);
-  doTest(3, 0);
-  doTest(4, 3);
-  doTest(5, 3);
-  doTest(6, 8);
-});
-
-describe("Random cases", () => {
-  function randint(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function _solution(number) {
+describe("Random tests", () => {
+  const _solution = (number) => {
     let sum = 0;
 
     for (let i = 1; i < number; i++) {
@@ -38,11 +35,19 @@ describe("Random cases", () => {
         sum += i;
       }
     }
+
     return sum;
-  }
+  };
 
   for (let i = 0; i < 100; i++) {
-    let rand = randint(0, 10 ** randint(1, 5));
-    doTest(rand, _solution(rand));
+    const randomMax = 10 ** generateRandomNumber(1, 5);
+    const randomNumber = generateRandomNumber(0, randomMax);
+    const input = randomNumber;
+    const output = _solution(randomNumber);
+    const testTitle = getLoopTestTitle(i + 1, input, output);
+
+    it(testTitle, () => {
+      expect(solution(input)).toEqual(output);
+    });
   }
 });
