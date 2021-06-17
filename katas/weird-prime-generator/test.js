@@ -1,76 +1,112 @@
+const { getLoopTestTitle } = require("../../utils/test");
+const { generateRandomNumber } = require("../../utils/random");
 const { countOnes, maxPn, anOverAverage } = require("./index");
 
-describe("countOnes", () => {
-  test("Basic tests", () => {
-    expect(countOnes(1)).toEqual(1);
-    expect(countOnes(10)).toEqual(8);
-    expect(countOnes(100)).toEqual(90);
-    expect(countOnes(200)).toEqual(184);
-    expect(countOnes(1000)).toEqual(975);
-    expect(countOnes(10000)).toEqual(9968);
-    expect(countOnes(100000)).toEqual(99955);
-  });
-});
+describe("Static tests", () => {
+  describe("countOnes", () => {
+    const tests = [
+      { input: 1, output: 1 },
+      { input: 10, output: 8 },
+      { input: 100, output: 90 },
+      { input: 200, output: 184 },
+      { input: 1_000, output: 975 },
+      { input: 10_000, output: 9_968 },
+      { input: 100_000, output: 99_955 },
+    ];
 
-describe("maxPn", () => {
-  test("Basic tests", () => {
-    expect(maxPn(1)).toEqual(5);
-    expect(maxPn(5)).toEqual(47);
-    expect(maxPn(7)).toEqual(101);
-    expect(maxPn(9)).toEqual(233);
-    expect(maxPn(15)).toEqual(15131);
-    expect(maxPn(17)).toEqual(30323);
-    expect(maxPn(18)).toEqual(60647);
-  });
-});
+    tests.forEach(({ input, output }, index) => {
+      const testTitle = getLoopTestTitle(index + 1, input, output);
 
-describe("anOverAverage", () => {
-  test("Basic tests", () => {
-    expect(anOverAverage(1)).toEqual(3);
-    expect(anOverAverage(5)).toEqual(3);
-    expect(anOverAverage(7)).toEqual(3);
-    expect(anOverAverage(9)).toEqual(3);
-    expect(anOverAverage(50)).toEqual(3);
+      it(testTitle, () => {
+        expect(countOnes(input)).toEqual(output);
+      });
+    });
+  });
+
+  describe("maxPn", () => {
+    const tests = [
+      { input: 1, output: 5 },
+      { input: 5, output: 47 },
+      { input: 7, output: 101 },
+      { input: 9, output: 233 },
+      { input: 15, output: 15_131 },
+      { input: 17, output: 30_323 },
+      { input: 18, output: 60_647 },
+    ];
+
+    tests.forEach(({ input, output }, index) => {
+      const testTitle = getLoopTestTitle(index + 1, input, output);
+
+      it(testTitle, () => {
+        expect(maxPn(input)).toEqual(output);
+      });
+    });
+  });
+
+  describe("anOverAverage", () => {
+    const tests = [
+      { input: 1, output: 3 },
+      { input: 5, output: 3 },
+      { input: 7, output: 3 },
+      { input: 9, output: 3 },
+      { input: 50, output: 3 },
+    ];
+
+    tests.forEach(({ input, output }, index) => {
+      const testTitle = getLoopTestTitle(index + 1, input, output);
+
+      it(testTitle, () => {
+        expect(anOverAverage(input)).toEqual(output);
+      });
+    });
   });
 });
 
 describe("Random tests", () => {
-  function randint(a, b) {
-    return Math.floor(Math.random() * (b - a + 1) + a);
-  }
-
-  function gcdSol(a, b) {
-    if (!b) return a;
-    return gcdSol(b, a % b);
-  }
-
-  function pnSol(n) {
-    let prev = 7;
-    let i = 2;
-    let res = [];
-    let cnt = 0;
-    while (cnt < n) {
-      let nou = prev + gcdSol(prev, i);
-      let d = nou - prev;
-      if (d !== 1 && res.indexOf(d) === -1) {
-        res.push(d);
-        cnt++;
+  describe("maxPn", () => {
+    const gcd = (a, b) => {
+      if (!b) {
+        return a;
       }
-      prev = nou;
-      i++;
+
+      return gcd(b, a % b);
+    };
+
+    const pn = (n) => {
+      const res = [];
+      let prev = 7;
+      let i = 2;
+      let cnt = 0;
+
+      while (cnt < n) {
+        const nou = prev + gcd(prev, i);
+        const d = nou - prev;
+
+        if (d !== 1 && res.indexOf(d) === -1) {
+          res.push(d);
+          cnt++;
+        }
+
+        prev = nou;
+        i++;
+      }
+
+      return res;
+    };
+
+    const maxPnCheck = (n) => {
+      return Math.max(...pn(n));
+    };
+
+    for (let i = 0; i < 10; i++) {
+      const randomNumber = generateRandomNumber(2, 30);
+      const input = randomNumber;
+      const output = maxPnCheck(randomNumber);
+      const testTitle = getLoopTestTitle(i + 1, input, output);
+
+      test(testTitle, () => {
+        expect(maxPn(input)).toEqual(output);
+      });
     }
-    return res;
-  }
-
-  function maxPnSol(n) {
-    return Math.max(...pnSol(n));
-  }
-
-  for (let i = 0; i < 10; i++) {
-    let n = randint(2, 30);
-
-    test("Testing maxPn: ", () => {
-      expect(maxPn(n)).toEqual(maxPnSol(n));
-    });
-  }
+  });
 });
