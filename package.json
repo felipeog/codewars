@@ -4,7 +4,8 @@
   "scripts": {
     "start": "jest --watch",
     "test": "jest",
-    "test:uncommitted": "jest -o",
+    "test:changed": "jest --onlyChanged",
+    "test:verbose": "jest --verbose",
     "create-kata-folder": "node ./scripts/createKataFolder.js"
   },
   "author": "https://github.com/felipeog",
