@@ -1,51 +1,59 @@
+const { getLoopTestTitle } = require("../../utils/test");
 const permutations = require("./index");
 
-describe("Permutations", () => {
-  test("Unique letters", () => {
-    expect(permutations("a")).toEqual(["a"]);
-    expect(permutations("ab").sort()).toEqual(["ab", "ba"].sort());
-    expect(permutations("abc").sort()).toEqual(
-      ["abc", "acb", "bac", "bca", "cab", "cba"].sort()
-    );
+describe("Static tests", () => {
+  const aPermutations = ["a"];
+  const aaPermutations = ["aa"];
+  const abPermutations = ["ab", "ba"];
+  const abcPermutations = ["abc", "acb", "bac", "bca", "cab", "cba"];
+  const aabbPermutations = ["aabb", "abab", "abba", "baab", "baba", "bbaa"];
+  const abcdPermutations = [
+    "abcd",
+    "abdc",
+    "acbd",
+    "acdb",
+    "adbc",
+    "adcb",
+    "bacd",
+    "badc",
+    "bcad",
+    "bcda",
+    "bdac",
+    "bdca",
+    "cabd",
+    "cadb",
+    "cbad",
+    "cbda",
+    "cdab",
+    "cdba",
+    "dabc",
+    "dacb",
+    "dbac",
+    "dbca",
+    "dcab",
+    "dcba",
+  ];
+  const aaaabPermutations = ["aaaab", "aaaba", "aabaa", "abaaa", "baaaa"];
+  const tests = [
+    { input: "a", output: aPermutations },
+    { input: "ab", output: abPermutations },
+    { input: "abc", output: abcPermutations },
+    { input: "abcd", output: abcdPermutations },
+    { input: "bcad", output: abcdPermutations },
+    { input: "dcba", output: abcdPermutations },
+    { input: "aa", output: aaPermutations },
+    { input: "aabb", output: aabbPermutations },
+    { input: "aaaab", output: aaaabPermutations },
+  ];
 
-    var abcd = [
-      "abcd",
-      "abdc",
-      "acbd",
-      "acdb",
-      "adbc",
-      "adcb",
-      "bacd",
-      "badc",
-      "bcad",
-      "bcda",
-      "bdac",
-      "bdca",
-      "cabd",
-      "cadb",
-      "cbad",
-      "cbda",
-      "cdab",
-      "cdba",
-      "dabc",
-      "dacb",
-      "dbac",
-      "dbca",
-      "dcab",
-      "dcba",
-    ];
-    expect(permutations("abcd").sort()).toEqual(abcd.sort());
-    expect(permutations("bcad").sort()).toEqual(abcd.sort());
-    expect(permutations("dcba").sort()).toEqual(abcd.sort());
-  });
+  tests.forEach(({ input, output }, index) => {
+    const testTitle = getLoopTestTitle(index + 1, input, output);
 
-  test("Duplicate letters", () => {
-    expect(permutations("aa").sort()).toEqual(["aa"].sort());
-    expect(permutations("aabb").sort()).toEqual(
-      ["aabb", "abab", "abba", "baab", "baba", "bbaa"].sort()
-    );
-    expect(permutations("aaaab").sort()).toEqual(
-      ["aaaab", "aaaba", "aabaa", "abaaa", "baaaa"].sort()
-    );
+    it(testTitle, () => {
+      const result = permutations(input);
+      const sortedResult = [...result].sort();
+
+      expect(sortedResult).toEqual(output);
+    });
   });
 });
