@@ -33,9 +33,8 @@ describe("Random Tests", () => {
 
     while (randomString.length < 100) {
       const randomName = generateRandomName().replace(rep, "");
-      randomString += `${
-        !randomString.length ? "" : " "
-      }${randomName} ${randomName}`;
+
+      randomString += `${randomName}${randomName}`;
     }
 
     const input = randomString + uniqueLetter;
