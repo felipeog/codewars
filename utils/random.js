@@ -12,6 +12,16 @@ const generateRandomChar = () => {
   return chars[randomIndex];
 };
 
+const generateRandomChars = (length) => {
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    result += generateRandomChar();
+  }
+
+  return result;
+};
+
 const generateRandomName = () => {
   return uniqueNamesGenerator({
     dictionaries: [names],
@@ -107,6 +117,7 @@ const shuffleArray = (inputArray) => {
 module.exports = {
   generateRandomArrayIndex,
   generateRandomChar,
+  generateRandomChars,
   generateRandomName,
   generateRandomNames,
   generateRandomNumber,
