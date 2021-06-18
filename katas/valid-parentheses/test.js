@@ -76,7 +76,7 @@ describe("Random tests", () => {
     const output = validParenthesesCheck(randomParentheses);
     const testTitle = getLoopTestTitle(i + 1, input, output);
 
-    test(testTitle, () => {
+    it(testTitle, () => {
       expect(validParentheses(input)).toEqual(output);
     });
   }

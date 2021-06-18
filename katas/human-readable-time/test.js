@@ -18,7 +18,7 @@ describe("Static tests", () => {
   tests.forEach(({ input, output }, index) => {
     const tesTitle = getLoopTestTitle(index + 1, input, output);
 
-    test(tesTitle, () => {
+    it(tesTitle, () => {
       expect(humanReadable(input)).toEqual(output);
     });
   });

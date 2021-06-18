@@ -104,7 +104,7 @@ describe("Random tests", () => {
       const output = maxPnCheck(randomNumber);
       const testTitle = getLoopTestTitle(i + 1, input, output);
 
-      test(testTitle, () => {
+      it(testTitle, () => {
         expect(maxPn(input)).toEqual(output);
       });
     }
