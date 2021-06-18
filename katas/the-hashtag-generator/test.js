@@ -1,7 +1,7 @@
 const { getLoopTestTitle } = require("../../utils/test");
 const generateHashtag = require("./index");
 
-describe("Tests", () => {
+describe("Static tests", () => {
   const tests = [
     { input: "", output: false },
     { input: " ".repeat(200), output: false },
