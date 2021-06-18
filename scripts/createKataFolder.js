@@ -6,7 +6,11 @@ const DEFAULT_KATA_FILES = [
     name: "index.js",
     content: "const fn = () => {};\n\nmodule.exports = fn;\n",
   },
-  { name: "test.js", content: 'const fn = require("./index");\n' },
+  {
+    name: "test.js",
+    content:
+      'const { getLoopTestTitle } = require("../../utils/test");\n// const {} = require("../../utils/random");\nconst fn = require("./index");\n',
+  },
   { name: "readme.md", content: "# [name](url)\n" },
 ];
 
