@@ -1,7 +1,7 @@
 const { getLoopTestTitle } = require("../../utils/test");
 const isIntArray = require("./index");
 
-describe("Basic tests", () => {
+describe("Static tests", () => {
   const tests = [
     { input: [], output: true },
     { input: [1, 2, 3, 4], output: true },
