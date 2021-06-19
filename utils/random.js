@@ -88,8 +88,8 @@ const generateRandomString = (length) => {
   for (let i = 0; i < length; i++) {
     const isLowerCase = Math.random() > 0.5;
     const randomNumber = isLowerCase
-      ? generateRandomNumber(65, 90)
-      : generateRandomNumber(97, 122);
+      ? generateRandomNumber(97, 122)
+      : generateRandomNumber(65, 90);
 
     result += String.fromCharCode(randomNumber);
   }
