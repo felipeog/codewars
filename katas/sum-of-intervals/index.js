@@ -17,7 +17,7 @@ const removeOverlaps = (intervals) => {
     const isOverlapping = currentY > nextX;
 
     if (isOverlapping) {
-      const biggerY = currentY > nextY ? currentY : nextY;
+      const biggerY = Math.max(currentY, nextY);
 
       noOverlaps = [
         ...noOverlaps.slice(0, i),
